@@ -1,5 +1,26 @@
 from ffprobe import FFProbe
+from pathlib import Path
 import os
+
+def search_for_solid_subs(file_path):
+    path = Path(file_path)
+    def on_same_dir():
+        srt = path.with_suffix('.srt')
+        if srt.exists():
+            return [srt.absolute()]
+        else:return []
+    def in_Subs():
+        srt = Path('Subs') / path.with_suffix('.srt')
+        if srt.exists():
+            return [srt.absolute()]
+        else:return []
+    def in_Subs_folder():
+        srt_path = Path('Subs') / path.with_suffix('')  
+        srt_files = srt_path.glob('*.srt')
+        eng_sub = [sub.absolute() for sub in srt_files if 'eng' in str(sub.name).lower()]
+        return eng_sub
+    all_sub = [*on_same_dir(), *in_Subs(), *in_Subs_folder()]
+    return sorted([sub for sub in all_sub], key=lambda sub:sub.stat().st_size, reverse=True)
 
 def get_eng_sub_net_data(media_file):
   metadata = FFProbe(media_file)
