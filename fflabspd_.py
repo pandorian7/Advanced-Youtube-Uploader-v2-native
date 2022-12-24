@@ -22,7 +22,7 @@ def search_for_solid_subs(file_path):
         abs_srt_path = parent / Path('Subs') / rel_path.with_suffix('')  
         srt_files = srt_path.glob('*.srt')
         eng_sub = [sub.absolute() for sub in srt_files if 'eng' in str(sub.name).lower()]
-        freturn eng_sub
+        return eng_sub
     all_sub = [*on_same_dir(), *in_Subs(), *in_Subs_folder()]
     return sorted([sub for sub in all_sub], key=lambda sub:sub.stat().st_size, reverse=True)
 
