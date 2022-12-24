@@ -4,18 +4,22 @@ import os
 
 def search_for_solid_subs(file_path):
     path = Path(file_path)
+    parent = path.parent
+    rel_path = Path(fp.name)
     def on_same_dir():
-        srt = path.with_suffix('.srt')
-        if srt.exists():
-            return [srt.absolute()]
+        srt = rel_path.with_suffix('.srt')
+        abs_path = parent / srt
+        if abs_path.exists():
+            return [abs_path]
         else:return []
     def in_Subs():
-        srt = Path('Subs') / path.with_suffix('.srt')
-        if srt.exists():
-            return [srt.absolute()]
+        srt = Path('Subs') / rel_path.with_suffix('.srt')
+        abs_path = parent / srt
+        if abs_path.exists():
+            return [abs_path]
         else:return []
     def in_Subs_folder():
-        srt_path = Path('Subs') / path.with_suffix('')  
+        abs_srt_path = parent / Path('Subs') / rel_path.with_suffix('')  
         srt_files = srt_path.glob('*.srt')
         eng_sub = [sub.absolute() for sub in srt_files if 'eng' in str(sub.name).lower()]
         return eng_sub
