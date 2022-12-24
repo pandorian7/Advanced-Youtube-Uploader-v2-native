@@ -20,7 +20,7 @@ def search_for_solid_subs(file_path):
         else:return []
     def in_Subs_folder():
         abs_srt_path = parent / Path('Subs') / rel_path.with_suffix('')  
-        srt_files = srt_path.glob('*.srt')
+        srt_files = abs_srt_path.glob('*.srt')
         eng_sub = [sub.absolute() for sub in srt_files if 'eng' in str(sub.name).lower()]
         return eng_sub
     all_sub = [*on_same_dir(), *in_Subs(), *in_Subs_folder()]
